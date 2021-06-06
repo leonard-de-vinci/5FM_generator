@@ -1,0 +1,1 @@
+	<reference rName="ref_$var1" source="kv_$var2" target="kv_$var3" />
