@@ -1,0 +1,8 @@
+nbConcepts	1	5
+nbRows	1	1
+nbKeys	2	4
+topology	1	1=line	2=star
+
+nbQueries	5
+nbJoins	0	2
+nbKeysPerRow	1	2
