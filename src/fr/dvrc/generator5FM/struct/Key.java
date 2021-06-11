@@ -13,7 +13,18 @@ public class Key extends Struct {
 
 	}
 
+	@Override
 	public String toString () {
+		return signature ();
+	}
+
+	@Override
+	public String toXML () {
 		return template.replaceAll("\\$var", name);
+	}
+
+	@Override
+	public String signature() {
+		return name;
 	}
 }

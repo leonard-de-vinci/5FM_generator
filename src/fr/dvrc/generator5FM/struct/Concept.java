@@ -13,8 +13,16 @@ public class Concept extends Struct {
 	@Override
 	protected void generate() {
 		rows = new ArrayList<Row> ();
+		String keyID = null;
 		for(int i=0;i<nbRows;i++) {
-			rows.add(new Row(name+"_"+(i+1)));
+			if(i==0) {
+				Row row = new Row(name+"_"+(i+1));
+				rows.add(row);
+				keyID = row.getKeyID();
+			} else {
+				Row row = new Row(name+"_"+(i+1), keyID);
+				rows.add(row);
+			}
 		}
 	}
 
@@ -26,12 +34,30 @@ public class Concept extends Struct {
 		return rows.get(0).getLastKey();
 	}
 
+
+	@Override
 	public String toString () {
+		return signature ();
+	}
+
+	@Override
+	public String toXML () {
 		String XML = template.replaceAll("\\$var", name);
 		StringBuffer sb = new StringBuffer ();
 		for(Row r : rows) {
-			sb.append(r.toString());
+			sb.append("\n"+r.toXML());
 		}
 		return XML.replaceAll("\\$rows", sb.toString());
+	}
+
+	@Override
+	public String signature() {
+		StringBuffer sb = new StringBuffer (name+"{"+rows.get(0).signature()) ;
+		
+		for(int i=1;i<rows.size();i++)
+			sb.append(","+rows.get(i).signature());
+		sb.append("}");
+		
+		return sb.toString();
 	}
 }

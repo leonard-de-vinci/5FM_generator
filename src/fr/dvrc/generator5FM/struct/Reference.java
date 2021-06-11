@@ -1,21 +1,41 @@
 package fr.dvrc.generator5FM.struct;
 
 public class Reference extends Struct{
-	protected String var2;
-	protected String var3;
+	Row source;
+	Row target;
 
-	public Reference(KeyOid source, Key target) {
-		super(source.name+"_"+target.name, "template_reference.xml");
-		var2 = source.name;
-		var3 = target.name;
+	public Reference(Row source, Row target) {
+		super(source.ID.name+"_"+target.getLastKey().name, "template_reference.xml");
+		this.source = source;
+		this.target = target;
 	}
 
+	public String keySource () {
+		return source.ID.name;
+	}
+
+	public String keyTarget () {
+		return target.getLastKey().name;
+
+	}
+	
 	@Override
 	public void generate () {
 
 	}
 
+	@Override
 	public String toString () {
-		return template.replaceAll("\\$var1", name).replaceAll("\\$var2", var2).replaceAll("\\$var3", var3);
+		return signature ();
+	}
+
+	@Override
+	public String toXML () {
+		return template.replaceAll("\\$var1", name).replaceAll("\\$var2", keySource()).replaceAll("\\$var3", keyTarget());
+	}
+
+	@Override
+	public String signature() {
+		return "["+keySource()+"->"+keyTarget()+"]";
 	}
 }
